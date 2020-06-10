@@ -9,25 +9,25 @@ import (
 func Provider() terraform.ResourceProvider {
 	return &schema.Provider{
 		Schema: map[string]*schema.Schema{
-			"server_url": &schema.Schema{
+			"server_url": {
 				Type:        schema.TypeString,
 				Required:    true,
 				DefaultFunc: schema.EnvDefaultFunc("JENKINS_URL", nil),
 				Description: "The URL of the JenkinsCI server to connect to.",
 			},
-			"ca_cert": &schema.Schema{
+			"ca_cert": {
 				Type:        schema.TypeString,
 				Optional:    true,
 				DefaultFunc: schema.EnvDefaultFunc("JENKINS_CA_CERT", nil),
 				Description: "The path to the JenkinsCi self-signed certificate.",
 			},
-			"username": &schema.Schema{
+			"username": {
 				Type:        schema.TypeString,
 				Required:    true,
 				DefaultFunc: schema.EnvDefaultFunc("JENKINS_USERNAME", nil),
 				Description: "Username to authenticate to JenkinsCI.",
 			},
-			"password": &schema.Schema{
+			"password": {
 				Type:        schema.TypeString,
 				Required:    true,
 				DefaultFunc: schema.EnvDefaultFunc("JENKINS_PASSWORD", nil),
@@ -36,7 +36,9 @@ func Provider() terraform.ResourceProvider {
 		},
 
 		ResourcesMap: map[string]*schema.Resource{
-			"jenkins_job": resourceJenkinsJob(),
+			"jenkins_job":               resourceJenkinsJob(),
+			"jenkins_credential":        resourceJenkinsCredential(),
+			"jenkins_credential_secret": resourceJenkinsCredentialSecret(),
 		},
 
 		ConfigureFunc: configureProvider,
